@@ -1,29 +1,35 @@
-lw x9, a # Carregar a da memória
-lw x18, b # Carregar b da memória
-lw x20, c # Carregar c da memória
+main:
+    lw x10, a # Carregar 'a' da memória
+    lw x11, b # Carregar 'b' da memória
+    lw x12, c # Carregar 'c' da memória
 
-addi x5, x0, 0 # i = 0
-addi x6, x0, 1 # m = 1
-addi x7, x0, 32 # n = 32
+    jal x1, multiply # Multiplicar 'a' e 'b'
+    sw x12, c # Salvar o resultado em 'c'
 
-start:
-    beq x5, x7, stop # i == 32?
-    and x28, x18, x6 # Bit menos significativo
-    beq x28, x0, left # Bit menos significativo é igual a 0?
-	
-    add x20, x20, x9
-    left: slli x9, x9, 1
-    right: srli x18, x18, 1
+    halt # Encerrar o programa
 
-    addi x5, x5, 1 # i++
-    beq x0, x0, start
-stop:
+multiply:
+    addi x5, x0, 0 # i = 0
+    addi x6, x0, 32 # n = 32
+    addi x7, x0, 0x00000001 # Bitmask
 
-sw x20, c # Guardar c na memória
-halt # Encerrar o programa
+    start:
+        beq x5, x6, stop # i == 32?
+        and x28, x11, x7 # Less Signal Bit (LSB)
+        beq x28, x0, left # LSB == 0?
+        add x12, x12, x10 # c = c + a
 
-a: .word 2 # 16-bits
-b: .word 3 # 16-bits
-c: .word 0 # 32-bits
+        left:
+            slli x10, x10, 1 # a << 1
+        right:
+            srli x11, x11, 1 # b >> 1
 
-# Número máximo de ciclos de clock = 844 
+        addi x5, x5, 1 # i++
+        jal x0, start # Loop
+    stop:
+    
+    jalr x0, 0(x1) # Return
+
+a: .word 0x0002 # 16-bits
+b: .word 0x0003 # 16-bits
+c: .word 0x00000000 # 32-bits
