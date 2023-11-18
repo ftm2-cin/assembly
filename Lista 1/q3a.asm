@@ -8,10 +8,10 @@ addi x7, x0, 32 # n = 32
 
 start:
     beq x5, x7, stop # i == 32?
-	and x28, x18, x6 # Bit menos significativo
-	beq x28, x0, left # Bit menos significativo é igual a 0?
+    and x28, x18, x6 # Bit menos significativo
+    beq x28, x0, left # Bit menos significativo é igual a 0?
 	
-	add x20, x20, x9
+    add x20, x20, x9
     left: slli x9, x9, 1
     right: srli x18, x18, 1
 
