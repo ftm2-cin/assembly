@@ -14,19 +14,21 @@ multiply:
     addi x7, x0, 0x00000001 # Bitmask
 
     start:
-        beq x5, x6, stop # i == 32?
-        and x28, x11, x7 # Less Signal Bit (LSB)
-        beq x28, x0, left # LSB == 0?
-        add x12, x12, x10 # c = c + a
-
-        left:
+        beq x0, x11, done # b == 0?
+        beq x5, x6, done # i == 32?
+        
+        check:
+            and x28, x11, x7 # Least Significant Bit (LSB)
+            beq x28, x0, shift # LSB == 0?
+            add x12, x12, x10 # c = c + a
+        
+        shift:
             slli x10, x10, 1 # a << 1
-        right:
             srli x11, x11, 1 # b >> 1
 
         addi x5, x5, 1 # i++
         jal x0, start # Loop
-    stop:
+    done:
     
     jalr x0, 0(x1) # Return
 
