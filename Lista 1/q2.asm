@@ -132,7 +132,7 @@ Tie:
 	sb   x9, 1024(x0)       # Print( )
 Result:
 	addi x5, x0, 0 		# i = 0
-	addi x6, x0, 7 	# n = 7
+	addi x6, x0, 7 		# n = 7
 	addi x22, x21, 0 	# Guardando o que vai ser impresso
 Print:
 	bge x5, x6, End 	# i >= 7?
