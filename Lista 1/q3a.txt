@@ -1,0 +1,4 @@
+Executando o código q3a.asm (pior caso -> 9999 * 9999) na CPU cycle accurate:
+    frequência de clock = 100hz
+    números de ciclos = 482
+    CPU time = 482/100 -> CPU time = 4.82s
