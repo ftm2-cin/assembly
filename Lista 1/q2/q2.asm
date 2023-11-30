@@ -1,16 +1,15 @@
 Begin:
 	addi x18, x0, 0         # Player1 = = x18 = 0
 	addi x19, x0, 0         # Player2 = x19 = 0
-	addi x21, x0, 0		# Result = x21 = 0
-	addi x22, x0, 0 	# Print_Result = x22 = 0
+	addi x21, x0, 0         # Result = x21 = 0
+	addi x22, x0, 0         # PrintResult = x22 = 0
 	addi x10, x0, 0x640     # Pow [0:6] = x10
 	addi x20, x0, 0x260     # Alpha [0:25] = x20
 	addi x9, x0, 32         # Flag = x9 = 32
 	addi x7, x0, 65         # Corrector = x7 = 65
-				# Temporary register = x5
-				# Iterator = x6
-Pow:
 
+# Temporary register = x5, Iterator = x6
+Pow:
 	lui  x5, 0x000f4
 	addi x5, x5, 0x240
 	sw   x5, 0(x10)
@@ -34,7 +33,7 @@ Pow:
 
 	addi x5, x0, 1
 	sw   x5, 24(x10)
-	
+
 # Alocando os valores das letras em Alpha[0:25]
 One:
 	addi x5, x0, 1
@@ -120,7 +119,7 @@ WinnerP2:
 	addi x8, x0, 50         # Reg = 2
 	sb   x8, 1024(x0)       # Print(Reg)
 	sb   x9, 1024(x0)       # Print( )
-	beq  x0, x0, Result     # Result	
+	beq  x0, x0, Result     # Result
 Tie:
 	addi x21, x18, 0        # Result = P1 OU P2
 	addi x8, x0, 84         # Reg = T
@@ -131,29 +130,26 @@ Tie:
 	sb   x8, 1024(x0)       # Print(Reg)
 	sb   x9, 1024(x0)       # Print( )
 Result:
-	addi x5, x0, 0 		# i = 0
-	addi x6, x0, 7 		# n = 7
-	addi x22, x21, 0 	# Guardando o que vai ser impresso
+	addi x5, x0, 0          # i = 0
+	addi x6, x0, 7          # n = 7
+	addi x22, x21, 0        # Guardando o que vai ser impresso
 Print:
-	bge x5, x6, End 	# i >= 7?
-	slli x8, x5, 2 		# Iterator = x t.q. x ∈ [0, 4, ..., 100]
-	add x8, x8, x10		# Iterator = Pow[iterator]
-	lw x8, 0(x8)		# Potencia de 10 
-	addi x28, x0, 0 	# j = 0
+	bge  x5, x6, End        # i >= 7?
+	slli x8, x5, 2          # Iterator = x t.q. x ∈ [0, 4, ..., 100]
+	add  x8, x8, x10        # Iterator = Pow[iterator]
+	lw   x8, 0(x8)          # Potência de 10
+	addi x28, x0, 0         # j = 0
 Divide:
-	blt x22, x8, Next       # Result < Potencia de 10^i 
-	sub x22, x22, x8	# Result -= Potencia de 10^i 
-	addi x28, x28, 1 	# j += 1
-	jal x0, Divide          # Divide novamente
+	blt  x22, x8, Next      # Result < Potência de 10^i
+	sub  x22, x22, x8       # Result -= Potência de 10^i
+	addi x28, x28, 1        # j += 1
+	jal  x0, Divide         # Divide novamente
 Next:
-	blt x21, x8, Continue	# Pular zeros a esquerda
-	addi x28, x28, 48   	# Converter para char
-	sb x28, 1024(x0)	# Escrever no buffer do monitor
+	blt  x21, x8, Continue  # Pular zeros a esquerda
+	addi x28, x28, 48       # Converter para char
+	sb   x28, 1024(x0)      # Escrever no buffer do monitor
 Continue:
-	addi x5, x5, 1   	# i++
-	jal x0, Print 		# Proxima
+	addi x5, x5, 1          # i++
+	jal  x0, Print          # Próxima
 End:
-halt
-
-
-
+	halt

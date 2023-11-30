@@ -1,9 +1,0 @@
-Executando o código q5.asm para 0°:
-    frequência de clock inicial = 100 hz
-    número de instruções = 24
-    ciclos de clock = 106
-    CPU time inicial = 106/100 -> CPU time inicial = 1.06 s
-    CPI inicial = (1.06 x 100)/24 -> CPI inicial = 4.41 
-    taxa de leitura inicial = CPI/CPU time -> 4.41/1.06 -> taxa de leitura = 4.16 
-    taxa de leitura final = 41.6
-    frequência de clock final -> número de instruções x taxa de leitura final -> 24 x 41.6 -> 998.4 hz
